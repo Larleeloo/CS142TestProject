@@ -1,7 +1,18 @@
+import java.io.Console;
+
 public class L_LinkedList {
    Node head;
+   int size = 0;
    Player pHead;
+   int pSize = 0;
+
    public L_LinkedList(){
+      this.head = new Node();
+      this.size++;
+   }
+   public L_LinkedList(int worldData){
+      this.head = new Node(worldData);
+      this.size++;
    }
 
    // Method to insert a new node
@@ -19,6 +30,8 @@ public class L_LinkedList {
          temp.next = new_node;
       }
    }
+
+   //blank player added to end of list
    public void insertPlayer()
    {
       Player new_player = new Player();
@@ -26,22 +39,31 @@ public class L_LinkedList {
          this.pHead = new_player;
       }
       else {
-         Player temp = this.pHead;
-         while (temp.next != null) {
-            temp = temp.next;
+         new_player = this.travPlayer(this.pSize);
          }
-         temp.next = new_player;
-      }
+      this.pSize++;
    }
 
+   //traverses to an index or end of list of index > pSize
+   public Player travPlayer(int index){
+      Player player = this.pHead;
+      if(player == null){
+         return null;
+      }
+      else {
+         for (int i = 0; i < index; i++) {
+            if(player.next != null) {
+               player = player.next;
+            }
+         }
+         return player;
+      }
+
+   }
+   //changes stats[statIndex] at index by statChange amount
    public void changeStat(int index, int statIndex, int statChange)
    {
-      Player temp = new Player();
-      for(int i = 0; i < index; i++)
-      {
-         temp = temp.next;
-      }
-      temp.stats[statIndex] += statChange;
+      this.travPlayer(index).stats[statIndex] += statChange;
    }
    public void printList()
    {
@@ -51,6 +73,29 @@ public class L_LinkedList {
          System.out.print(currNode.data + " ");
          currNode = currNode.next;
       }
+   }
+
+   public void swapP(Player player1, Player player2)
+   {
+      Player temp = new Player();
+      temp = player1;
+      player1 = player2;
+      player2 = temp;
+   }
+   //pHead.stats[x] > pHead.next.stats[x] (bubble sort)
+   public void sortByHighestStatX(int x){
+      Player player = this.pHead;
+      if(this.pHead == null){
+         System.out.println("world " + this.head.data + "has no players");
+      }
+      else if(player.next != null) {
+            while(player.next != null){
+               if(player.stats[x] < player.next.stats[x]){
+                  //swapP(player,player.next);
+            }
+         }
+      }
+
    }
 
 

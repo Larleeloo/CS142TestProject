@@ -5,18 +5,14 @@ public class Main {
 
         LinkedList<Object> thing = new LinkedList<Object>();
 
-        L_LinkedList list = new L_LinkedList();
-        list.insertNode(123);
-        list.insertNode(321);
-        list.insertNode(1);
-        list.insertPlayer();
-        list.insertPlayer();
-        list.insertPlayer();
+        L_LinkedList worldA = new L_LinkedList(0);
+        worldA.insertPlayer();
+        worldA.insertPlayer();
 
-        System.out.println(list.pHead.hp
-                + " "
-                + list.pHead.next.hp
-                + " "
-                + list.pHead.next.next.hp);
+        worldA.changeStat(0, 0, -3);
+        //worldA.changeStat(1,0,5);
+        //worldA.sortByHighestStatX(0);
+
+        System.out.println(worldA.pHead.stats[0] + " " + worldA.travPlayer(1).stats[0]);
     }
 }
