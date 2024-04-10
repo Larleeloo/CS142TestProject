@@ -30,7 +30,20 @@ public class L_LinkedList {
          temp.next = new_node;
       }
    }
-
+/*   public void insertPlayer()
+   {
+      Player new_player = new Player();
+      if (this.pHead == null) {
+         this.pHead = new_player;
+      }
+      else {
+         Player temp = this.pHead;
+         while (temp.next != null) {
+            temp = temp.next;
+         }
+         temp.next = new_player;
+      }
+   }*/
    //blank player added to end of list
    public void insertPlayer()
    {
@@ -39,8 +52,8 @@ public class L_LinkedList {
          this.pHead = new_player;
       }
       else {
-         new_player = this.travPlayer(this.pSize);
-         }
+         this.travPlayer(this.pSize).next = new_player;
+      }
       this.pSize++;
    }
 
@@ -89,10 +102,11 @@ public class L_LinkedList {
          System.out.println("world " + this.head.data + "has no players");
       }
       else if(player.next != null) {
-            while(player.next != null){
-               if(player.stats[x] < player.next.stats[x]){
-                  //swapP(player,player.next);
+         while(player.next != null){
+            if(player.stats[x] < player.next.stats[x]){
+               swapP(player,player.next);
             }
+            player.next = player.next.next;
          }
       }
 
