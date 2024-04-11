@@ -12,6 +12,7 @@ public class L_LinkedList {
    }
    public L_LinkedList(int worldData){
       this.head = new Node(worldData);
+      this.head.next = null;
       this.size++;
    }
 
@@ -53,6 +54,7 @@ public class L_LinkedList {
       }
       else {
          this.travPlayer(this.pSize).next = new_player;
+         new_player.prev = this.travPlayer(this.pSize-1);
       }
       this.pSize++;
    }
@@ -88,25 +90,45 @@ public class L_LinkedList {
       }
    }
 
+   public void pPush(Player p){
+      p.next = pHead;
+      pHead = p;
+      pHead.next.prev = p;
+   }
    public void swapP(Player player1, Player player2)
    {
-      Player temp = new Player();
+      Player temp;
       temp = player1;
       player1 = player2;
       player2 = temp;
    }
    //pHead.stats[x] > pHead.next.stats[x] (bubble sort)
    public void sortByHighestStatX(int x){
-      Player player = this.pHead;
       if(this.pHead == null){
          System.out.println("world " + this.head.data + "has no players");
       }
-      else if(player.next != null) {
-         while(player.next != null){
-            if(player.stats[x] < player.next.stats[x]){
-               swapP(player,player.next);
+      else {
+         Player playerOut = this.pHead;
+         int indexOut = 0;
+         int indexIn = 0;
+         while (indexOut <= pSize) {
+            int indexOf = 0;
+            Player playerIn = travPlayer(indexIn);
+            int min = this.pHead.stats[x];
+            Player minPlayer = this.pHead;
+            while (indexIn <= pSize) {
+               if (playerIn.stats[x] < min) {
+                  min = playerIn.stats[x];
+                  minPlayer = playerIn;
+                  indexOf = indexIn;
+               }
+               if (playerIn.next != null) {
+                  playerIn = playerIn.next;
+               }
+               indexIn++;
             }
-            player.next = player.next.next;
+            pPush(travPlayer(indexIn));
+            indexOut++;
          }
       }
 

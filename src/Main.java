@@ -11,16 +11,25 @@ public class Main {
         worldA.insertPlayer();
         worldA.insertPlayer();
 
-        worldA.changeStat(0, 0, -1);
-        worldA.changeStat(1, 0, 0);
-        worldA.changeStat(2, 0, 1);
-        worldA.changeStat(3, 0, 2);
+        worldA.changeStat(0, 0, 2);
+        worldA.changeStat(1, 0, 1);
+        worldA.changeStat(2, 0, 0);
+        worldA.changeStat(3, 0, -1);
+        System.out.println("HP for P1: " + worldA.pHead.stats[0] +
+                " \nHP for P2: " + worldA.travPlayer(1).stats[0] +
+                " \nHP for P3: " + worldA.travPlayer(2).stats[0] +
+                " \nHP for P4: " + worldA.travPlayer(3).stats[0]);
         //worldA.sortByHighestStatX(0);
-        worldA.swapP(worldA.pHead,worldA.pHead.next);
+        //worldA.swapP(worldA.pHead,worldA.pHead.next);
+        worldA.sortByHighestStatX(0);
 
         System.out.println("HP for P1: " + worldA.pHead.stats[0] +
                 " \nHP for P2: " + worldA.travPlayer(1).stats[0] +
                 " \nHP for P3: " + worldA.travPlayer(2).stats[0] +
                 " \nHP for P4: " + worldA.travPlayer(3).stats[0]);
+        System.out.println("HP for P1: " + worldA.pHead.stats[0] +
+                " \nHP for P1(again): " + worldA.travPlayer(1).prev.stats[0] +
+                " \nHP for P2: " + worldA.travPlayer(2).prev.stats[0] +
+                " \nHP for P3: " + worldA.travPlayer(3).prev.stats[0]);
     }
 }
