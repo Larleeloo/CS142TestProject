@@ -75,6 +75,21 @@ public class L_LinkedList {
       }
 
    }
+
+   public void delPlayer(int index){
+      travPlayer(index).prev.next = travPlayer(index).next;
+      travPlayer(index).next = null;
+      travPlayer(index).prev = null;
+      travPlayer(index).stats = null;
+      travPlayer(index).inventory = null;
+      travPlayer(index).hp = 0;
+      travPlayer(index).data = 0;
+      travPlayer(index).mp = 0;
+      pSize--;
+
+
+
+   }
    //changes stats[statIndex] at index by statChange amount
    public void changeStat(int index, int statIndex, int statChange)
    {
@@ -90,10 +105,25 @@ public class L_LinkedList {
       }
    }
 
-   public void pPush(Player p){
-      p.next = pHead;
-      pHead = p;
-      pHead.next.prev = p;
+   public void pUpdate(){
+      for(int i = 0; i <= pSize; i++){
+         if(travPlayer(i) != this.pHead) {
+            if (travPlayer(i).prev.next != travPlayer(i)) {
+               travPlayer(i).prev = travPlayer(i - 1);
+            }
+         }
+      }
+   }
+
+   public void pPushFrom(Player p,int index){
+      if(p != this.pHead) {
+         p.prev.next = p.next;
+         p.next = pHead;
+         p.prev = null;
+         pHead = p;
+         pHead.next.prev = p;
+      }
+         pSize++;
    }
    public void swapP(Player player1, Player player2)
    {
@@ -110,13 +140,14 @@ public class L_LinkedList {
       else {
          Player playerOut = this.pHead;
          int indexOut = 0;
-         int indexIn = 0;
-         while (indexOut <= pSize) {
-            int indexOf = 0;
-            Player playerIn = travPlayer(indexIn);
-            int min = this.pHead.stats[x];
-            Player minPlayer = this.pHead;
-            while (indexIn <= pSize) {
+
+         while (indexOut < pSize) {
+            int indexIn = indexOut;
+            int indexOf = indexOut;
+            Player playerIn = playerOut;
+            int min = playerOut.stats[x];
+            Player minPlayer = playerOut;
+            while (indexIn<= pSize) {
                if (playerIn.stats[x] < min) {
                   min = playerIn.stats[x];
                   minPlayer = playerIn;
@@ -127,8 +158,11 @@ public class L_LinkedList {
                }
                indexIn++;
             }
-            pPush(travPlayer(indexIn));
+            pPushFrom(travPlayer(indexOf), indexOf);
+            pSize--;
             indexOut++;
+            playerOut = travPlayer(indexOut);
+            pUpdate();
          }
       }
 
