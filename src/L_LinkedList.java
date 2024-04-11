@@ -1,18 +1,16 @@
-import java.io.Console;
-
 public class L_LinkedList {
    Node head;
    int size = 0;
    Player pHead;
    int pSize = 0;
 
+   //Nodes in this case pertain only to world data and are therefore the only code initialized in each constructor
    public L_LinkedList(){
       this.head = new Node();
       this.size++;
    }
    public L_LinkedList(int worldData){
       this.head = new Node(worldData);
-      this.head.next = null;
       this.size++;
    }
 
@@ -31,36 +29,22 @@ public class L_LinkedList {
          temp.next = new_node;
       }
    }
-/*   public void insertPlayer()
+   //blank player added to end of doubly list
+   public void pInsert()
    {
       Player new_player = new Player();
       if (this.pHead == null) {
          this.pHead = new_player;
       }
       else {
-         Player temp = this.pHead;
-         while (temp.next != null) {
-            temp = temp.next;
-         }
-         temp.next = new_player;
-      }
-   }*/
-   //blank player added to end of list
-   public void insertPlayer()
-   {
-      Player new_player = new Player();
-      if (this.pHead == null) {
-         this.pHead = new_player;
-      }
-      else {
-         this.travPlayer(this.pSize).next = new_player;
-         new_player.prev = this.travPlayer(this.pSize-1);
+         this.pTraverseForward(this.pSize).next = new_player;
+         new_player.prev = this.pTraverseForward(this.pSize-1);
       }
       this.pSize++;
    }
 
    //traverses to an index or end of list of index > pSize
-   public Player travPlayer(int index){
+   public Player pTraverseForward(int index){
       Player player = this.pHead;
       if(player == null){
          return null;
@@ -70,30 +54,33 @@ public class L_LinkedList {
             if(player.next != null) {
                player = player.next;
             }
+            else {
+               // System.out.println("End of Player List"); //optional
+            }
          }
          return player;
       }
 
    }
 
-   public void delPlayer(int index){
-      travPlayer(index).prev.next = travPlayer(index).next;
-      travPlayer(index).next = null;
-      travPlayer(index).prev = null;
-      travPlayer(index).stats = null;
-      travPlayer(index).inventory = null;
-      travPlayer(index).hp = 0;
-      travPlayer(index).data = 0;
-      travPlayer(index).mp = 0;
+   public void pDelete(int index){
+      pTraverseForward(index).prev.next = pTraverseForward(index).next;
+      pTraverseForward(index).next = null;
+      pTraverseForward(index).prev = null;
+      pTraverseForward(index).stats = null;
+      pTraverseForward(index).inventory = null;
+      pTraverseForward(index).hp = 0;
+      pTraverseForward(index).data = 0;
+      pTraverseForward(index).mp = 0;
       pSize--;
 
 
 
    }
    //changes stats[statIndex] at index by statChange amount
-   public void changeStat(int index, int statIndex, int statChange)
+   public void changeStat(int pIndex, int statIndex, int statChange)
    {
-      this.travPlayer(index).stats[statIndex] += statChange;
+      this.pTraverseForward(pIndex).stats[statIndex] += statChange;
    }
    public void printList()
    {
@@ -107,15 +94,17 @@ public class L_LinkedList {
 
    public void pUpdate(){
       for(int i = 0; i <= pSize; i++){
-         if(travPlayer(i) != this.pHead) {
-            if (travPlayer(i).prev.next != travPlayer(i)) {
-               travPlayer(i).prev = travPlayer(i - 1);
+         if(pTraverseForward(i) != this.pHead) {
+            if (pTraverseForward(i).prev.next != pTraverseForward(i)) {
+               pTraverseForward(i).prev = pTraverseForward(i - 1);
             }
          }
       }
    }
 
-   public void pPushFrom(Player p,int index){
+
+
+   public void pPush(Player p){
       if(p != this.pHead) {
          p.prev.next = p.next;
          p.next = pHead;
@@ -123,14 +112,9 @@ public class L_LinkedList {
          pHead = p;
          pHead.next.prev = p;
       }
-         pSize++;
    }
-   public void swapP(Player player1, Player player2)
+   public void pSwap(int player1Index, int player2Index)
    {
-      Player temp;
-      temp = player1;
-      player1 = player2;
-      player2 = temp;
    }
    //pHead.stats[x] > pHead.next.stats[x] (bubble sort)
    public void sortByHighestStatX(int x){
@@ -140,14 +124,13 @@ public class L_LinkedList {
       else {
          Player playerOut = this.pHead;
          int indexOut = 0;
-
-         while (indexOut < pSize) {
+         while (indexOut < pSize) {                //outer loop
             int indexIn = indexOut;
             int indexOf = indexOut;
             Player playerIn = playerOut;
             int min = playerOut.stats[x];
             Player minPlayer = playerOut;
-            while (indexIn<= pSize) {
+            while (indexIn <= pSize) {              //inner loop
                if (playerIn.stats[x] < min) {
                   min = playerIn.stats[x];
                   minPlayer = playerIn;
@@ -158,16 +141,41 @@ public class L_LinkedList {
                }
                indexIn++;
             }
-            pPushFrom(travPlayer(indexOf), indexOf);
-            pSize--;
+            pPush(pTraverseForward(indexOf));
             indexOut++;
-            playerOut = travPlayer(indexOut);
+            playerOut = pTraverseForward(indexOut);
             pUpdate();
          }
       }
 
    }
 
+   public void pPrintStats(){
+      for(int i = 0; i < pSize; i++){
+         System.out.print("\nP" + (i + 1) + " stats: ");
+
+         for(int s = 0; s < 10; s++){
+            System.out.print( pTraverseForward(i).stats[s]);
+            if(s < 9){
+               System.out.print(",");
+            }
+         }
+
+      }
+   }
+
+   public void pAddToInventory(int pIndex, int slot, String item){
+      pTraverseForward(pIndex).inventory[slot] = item;
+   }
+
+   public void pPrintInventory(int pIndex){
+      String[] pInventory = pTraverseForward(pIndex).inventory;
+      for(int i = 0; i < 100; i++) {
+         if(pInventory[i] != null) {
+            System.out.print(pInventory[i] + ", ");
+         }
+      }
+   }
 
 
 }
