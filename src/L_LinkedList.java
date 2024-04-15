@@ -168,6 +168,17 @@ public class L_LinkedList {
       pTraverseForward(pIndex).inventory[slot] = item;
    }
 
+   public int pCountInventoryItems(String item, int pIndex){
+      int count = 0;
+      String[] pInventory = pTraverseForward(pIndex).inventory;
+      for(int i = 0; i < 100; i++) {
+         if (pInventory[i] == item) {
+            count ++;
+         }
+      }
+      return count;
+   }
+
    public void pPrintInventory(int pIndex){
       String[] pInventory = pTraverseForward(pIndex).inventory;
       for(int i = 0; i < 100; i++) {

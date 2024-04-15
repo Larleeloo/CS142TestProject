@@ -21,6 +21,7 @@ public class Main {
         worldA.pPrintStats();
         System.out.println("\nP4 inventory: ");
         worldA.pPrintInventory(3);
+        System.out.println(worldA.pCountInventoryItems("Water Bottle", 3));
 
     }
 }
