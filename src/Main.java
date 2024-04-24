@@ -3,14 +3,15 @@ public class Main {
 
         //LinkedList<Object> thing = new LinkedList<Object>();
 
-        L_LinkedList worldA = new L_LinkedList(0);
+        WorldOfThings worldA = new WorldOfThings(0);
         worldA.pInsert();
         worldA.pInsert();
         worldA.pInsert();
         worldA.pInsert();
-        worldA.pAddToInventory(2, 0, "Water Bottle");
-        worldA.pAddToInventory(2, 1, "Water Bottle");
-        worldA.pAddToInventory(2, 2, "Water Bottle");
+        Item item1 = new Item();
+        worldA.pAddToInventory(2, 0, item1);
+        worldA.pAddToInventory(2, 1, item1);
+        worldA.pAddToInventory(2, 2, item1);
 
         worldA.changeStat(0, 0, 9);
         worldA.changeStat(1, 0, 10);
@@ -21,7 +22,7 @@ public class Main {
         worldA.pPrintStats();
         System.out.println("\nP4 inventory: ");
         worldA.pPrintInventory(3);
-        System.out.println(worldA.pCountInventoryItems("Water Bottle", 3));
+        System.out.println(worldA.pCountInventoryItems(item1, 3));
 
     }
 }

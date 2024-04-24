@@ -1,21 +1,24 @@
-public class L_LinkedList {
+public class WorldOfThings implements iWorld {
    Node head;
    int size = 0;
    Player pHead;
    int pSize = 0;
-
+   int iSize = 0;
+   Item[] worldInventory = new Item[iSize + 1];
+   Battlefield bHead = null;
+   int bSize = 0;
    //Nodes in this case pertain only to world data and are therefore the only code initialized in each constructor
-   public L_LinkedList(){
+   public WorldOfThings(){
       this.head = new Node();
       this.size++;
    }
-   public L_LinkedList(int worldData){
+   public WorldOfThings(int worldData){
       this.head = new Node(worldData);
       this.size++;
    }
 
    // Method to insert a new node
-   public void insertNode(int data)
+   public void nInsert(int data)
    {
       Node new_node = new Node(data);
       if (this.head == null) {
@@ -42,7 +45,39 @@ public class L_LinkedList {
       }
       this.pSize++;
    }
+   //inserts player with all parameters
+   public void pInsert(int inventorySize, Item[] inventory, int hp, int mp,
+                       int otherStat, int strength, int charisma, int wisdom, int intelligence, int dexterity, int constitution, int stamina, int confidence, int speed,
+                       int xCoords, int yCoords,
+                       int direction){
+      Player new_player = new Player(inventorySize,inventory,hp,mp,
+                                       otherStat,strength,charisma,wisdom,intelligence,dexterity,constitution,stamina,confidence,speed,
+                                       xCoords,yCoords,direction);
+      if (this.pHead == null) {
+         this.pHead = new_player;
+      }
+      else {
+         this.pTraverseForward(this.pSize).next = new_player;
+         new_player.prev = this.pTraverseForward(this.pSize-1);
+      }
+      this.pSize++;
+   }
 
+   public void iInsert(){
+      this.worldInventory[iSize] = new Item();
+      this.iSize++;
+   }
+   public void iInsert(int data, Player owner, int locationx, int locationy, String effect){
+      this.worldInventory[iSize] = new Item(data, owner, locationx, locationy, effect);
+      this.iSize++;
+   }
+   public void iInsert(int data, Player owner, int locationx, int locationy, String effect1, String effect2, String effect3, String effect4, String effect5){
+      this.worldInventory[iSize] = new Item(data, owner, locationx, locationy, effect1, effect2, effect3, effect4, effect5);
+      this.iSize++;
+   }
+   public void bInsert(){
+
+   }
    //traverses to an index or end of list of index > pSize
    public Player pTraverseForward(int index){
       Player player = this.pHead;
@@ -73,9 +108,6 @@ public class L_LinkedList {
       pTraverseForward(index).data = 0;
       pTraverseForward(index).mp = 0;
       pSize--;
-
-
-
    }
    //changes stats[statIndex] at index by statChange amount
    public void changeStat(int pIndex, int statIndex, int statChange)
@@ -91,7 +123,6 @@ public class L_LinkedList {
          currNode = currNode.next;
       }
    }
-
    public void pUpdate(){
       for(int i = 0; i <= pSize; i++){
          if(pTraverseForward(i) != this.pHead) {
@@ -101,9 +132,6 @@ public class L_LinkedList {
          }
       }
    }
-
-
-
    public void pPush(Player p){
       if(p != this.pHead) {
          p.prev.next = p.next;
@@ -116,7 +144,7 @@ public class L_LinkedList {
    public void pSwap(int player1Index, int player2Index)
    {
    }
-   //pHead.stats[x] > pHead.next.stats[x] (bubble sort)
+   //pHead.stats[x] > pHead.next.stats[x] (insertion sort)
    public void sortByHighestStatX(int x){
       if(this.pHead == null){
          System.out.println("world " + this.head.data + "has no players");
@@ -164,15 +192,20 @@ public class L_LinkedList {
       }
    }
 
-   public void pAddToInventory(int pIndex, int slot, String item){
-      pTraverseForward(pIndex).inventory[slot] = item;
+   public void pAddToInventory(int pIndex, int slot, Item item){
+      if(slot<pTraverseForward(pIndex).inventorySize) {
+         pTraverseForward(pIndex).inventory[slot] = item;
+      }
+      else{
+         System.out.println("Invalid slot assign attempt");
+      }
    }
 
-   public int pCountInventoryItems(String item, int pIndex){
+   public int pCountInventoryItems(Item item, int pIndex){
       int count = 0;
-      String[] pInventory = pTraverseForward(pIndex).inventory;
-      for(int i = 0; i < 100; i++) {
-         if (pInventory[i] == item) {
+      Item[] pInventory = pTraverseForward(pIndex).inventory;
+      for(int i = 0; i < pTraverseForward(pIndex).inventorySize; i++) {
+         if (pInventory[i].data == item.data) {
             count ++;
          }
       }
@@ -180,13 +213,11 @@ public class L_LinkedList {
    }
 
    public void pPrintInventory(int pIndex){
-      String[] pInventory = pTraverseForward(pIndex).inventory;
-      for(int i = 0; i < 100; i++) {
+      Item[] pInventory = pTraverseForward(pIndex).inventory;
+      for(int i = 0; i < pTraverseForward(pIndex).getInventorySize(); i++) {
          if(pInventory[i] != null) {
-            System.out.print(pInventory[i] + ", ");
+            System.out.print("item#" + pInventory[i].data + ", ");
          }
       }
    }
-
-
 }
