@@ -3,8 +3,8 @@ public interface iWorld {
     int size = 0;
     Player pHead = null;
     int pSize = 0;
+    Item[] worldInventory = new Item[63];
     int iSize = 0;
-    Item[] worldInventory = new Item[iSize + 1];
     Battlefield bHead = null;
     int bSize = 0;
     public void nInsert(int data);
@@ -34,5 +34,7 @@ public interface iWorld {
     public int pCountInventoryItems(Item item, int pIndex);
 
     public void pPrintInventory(int pIndex);
+
+    public boolean containsPlayerAtPos(int x, int y);
 
 }

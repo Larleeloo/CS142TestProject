@@ -4,7 +4,7 @@ public class WorldOfThings implements iWorld {
    Player pHead;
    int pSize = 0;
    int iSize = 0;
-   Item[] worldInventory = new Item[iSize + 1];
+   Item[] worldInventory = new Item[63];
    Battlefield bHead = null;
    int bSize = 0;
    //Nodes in this case pertain only to world data and are therefore the only code initialized in each constructor
@@ -205,7 +205,7 @@ public class WorldOfThings implements iWorld {
       int count = 0;
       Item[] pInventory = pTraverseForward(pIndex).inventory;
       for(int i = 0; i < pTraverseForward(pIndex).inventorySize; i++) {
-         if (pInventory[i].data == item.data) {
+         if (pInventory[i] != null && pInventory[i].data == item.data) {
             count ++;
          }
       }
@@ -219,5 +219,15 @@ public class WorldOfThings implements iWorld {
             System.out.print("item#" + pInventory[i].data + ", ");
          }
       }
+   }
+   public boolean containsPlayerAtPos(int x, int y){
+      boolean playerPresent = false;
+      for(int i = 0; i < this.pSize; i++){
+         if(pTraverseForward(i).getxCoords() == x && this.pTraverseForward(i).getyCoords() == y){
+            playerPresent = true;
+            break;
+         }
+      }
+      return playerPresent;
    }
 }

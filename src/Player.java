@@ -1,11 +1,12 @@
 import java.security.PublicKey;
+import java.util.Random;
 
 public class Player implements iPlayer{
     Player next;
     Player prev;
     int data;
     int inventorySize = 0;
-    Item[] inventory = new Item[99];
+    Item[] inventory = new Item[63];
     int hp;
     int mp;
     int[] stats = new int[10];
@@ -168,6 +169,127 @@ public class Player implements iPlayer{
                 break;
             default:
                 System.out.println("Error in movement");
+                break;
         }
+    }
+    public int[] incrementForward(int steps){
+        int[] xySteps = new int[2];
+        xySteps[0] = this.getxCoords();
+        xySteps[1] = this.getyCoords();
+        switch (direction){
+            case 1:
+                xySteps[1] = this.yCoords + steps;
+                break;
+            case 2:
+                xySteps[0] = this.xCoords + steps;
+                break;
+            case 3:
+                xySteps[1] = this.yCoords - steps;
+                break;
+            case 4:
+                xySteps[0] = this.xCoords - steps;
+                break;
+            default:
+                System.out.println("Error in movement");
+                break;
+        }
+        return xySteps;
+    }
+    public int[] attack(Player player, Weapon weapon){
+        int[] fire_solution = new int[3];
+        fire_solution[0] = player.incrementForward(1)[0];//increments x N steps
+        fire_solution[1] = player.incrementForward(1)[1];//increments y N steps
+        switch (player.rollD20(player, weapon.scalerIndex)){
+            case 0:
+                System.out.println("Critical miss!");
+                fire_solution[2] = -1;
+                break;
+            case 1:
+                fire_solution[2] = 0;
+                break;
+            case 2:
+                fire_solution[2] = Math.round(weapon.damage * ((float)(player.getStatIndex(8) - 7) / 4)) ;
+                break;
+            case 3:
+                fire_solution[2] = Math.round(weapon.damage * ((float)(player.getStatIndex(8) - 7) / 3)) ;
+                break;
+            case 4:
+                fire_solution[2] = Math.round(weapon.damage * ((float)(player.getStatIndex(8) - 7) / 2)) ;
+                break;
+            case 5:
+                fire_solution[2] = Math.round(weapon.damage * ((float)(player.getStatIndex(8) - 7))) ;
+                break;
+            case 6:
+                fire_solution[2] = weapon.damage + ((player.getStatIndex(weapon.scalerIndex) - 7) / 4);
+                break;
+            case 7:
+                fire_solution[2] = weapon.damage + ((player.getStatIndex(weapon.scalerIndex) - 7) / 3);
+                break;
+            case 8:
+                fire_solution[2] = weapon.damage + ((player.getStatIndex(weapon.scalerIndex) - 7) / 2);
+                break;
+            case 9:
+                fire_solution[2] = weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7;
+                break;
+            case 10:
+                fire_solution[2] = weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7;
+                break;
+            case 11:
+                fire_solution[2] = weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7;
+                break;
+            case 12:
+                fire_solution[2] = weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7;
+                break;
+            case 13:
+                fire_solution[2] = weapon.damage + 1 + player.getStatIndex(weapon.scalerIndex) - 7;
+                break;
+            case 14:
+                fire_solution[2] = weapon.damage + 1 + player.getStatIndex(weapon.scalerIndex) - 7;
+                break;
+            case 15:
+                fire_solution[2] = (weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7) * (1 + player.getStatIndex(8) - 7);
+                if(fire_solution[2] <= 0){
+                    fire_solution[2] = 1;
+                }
+                break;
+            case 16:
+                fire_solution[2] = (weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7) * (2 + player.getStatIndex(8) - 7);
+                if(fire_solution[2] <= 1){
+                    fire_solution[2] = 2;
+                }
+                break;
+            case 17:
+                fire_solution[2] = (weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7) * (3 + player.getStatIndex(8) - 7);
+                if(fire_solution[2] <= 2){
+                    fire_solution[2] = 3;
+                }
+                break;
+            case 18:
+                fire_solution[2] = (weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7) * (4 + player.getStatIndex(8) - 7);
+                if(fire_solution[2] <= 3){
+                    fire_solution[2] = 4;
+                }
+                break;
+            case 19:
+                fire_solution[2] = (weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7) * (4 + player.getStatIndex(8) - 7) + 1;
+                if(fire_solution[2] <= 4){
+                    fire_solution[2] = 5;
+                }
+                break;
+            case 20:
+                fire_solution[2] = (weapon.damage + player.getStatIndex(weapon.scalerIndex) - 7) * (5 + player.getStatIndex(8) - 7) + 2;
+                if(fire_solution[2] <= 5){
+                    fire_solution[2] = 6;
+                }
+                System.out.println("Critical hit!");
+                break;
+        }
+
+        return fire_solution;
+    }
+
+    public int rollD20(Player player, int scalerStatIndex){
+        //press enter
+        return new Random().nextInt(0,20) + player.getStatIndex(scalerStatIndex) - 7;
     }
 }

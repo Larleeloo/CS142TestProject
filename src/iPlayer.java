@@ -3,7 +3,7 @@ public interface iPlayer {
     Player next = null;
     Player prev = null;
     int inventorySize = 0;
-    Item[] inventory = new Item[inventorySize];
+    Item[] inventory = new Item[63];
     int hp = 0;
     int mp = 0;
     int[] stats = new int[10];
@@ -41,5 +41,6 @@ public interface iPlayer {
     public int setStatIndex(int index, int value);
     public int changeDir(char dir);
     public void moveForward(int steps);
+    public int[] attack(Player player, Weapon weapon);
 
 }
