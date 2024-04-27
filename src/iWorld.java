@@ -8,8 +8,8 @@ public interface iWorld {
     Battlefield bHead = null;
     int bSize = 0;
     public void nInsert(int data);
-    public void pInsert();
-    public void pInsert(int inventorySize, Item[] inventory, int hp, int mp,
+    public Player pInsert();
+    public Player pInsert(int inventorySize, Item[] inventory, int hp, int mp,
                         int otherStat, int strength, int charisma, int wisdom, int intelligence, int dexterity, int constitution, int stamina, int confidence, int speed,
                         int xCoords, int yCoords,
                         int direction);

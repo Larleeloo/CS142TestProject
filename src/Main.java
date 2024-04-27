@@ -1,9 +1,15 @@
+import javax.swing.*;
+import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-
-        Frame frame = new Frame("Button Click Event Example");
+        MyFrame mainFrame = new MyFrame();
+    }
+}
+/*        Frame frame = new Frame("Button Click Event Example");
         Button button = new Button("Click Me");
 
         button.setBounds(0, 30, 80, 30);
@@ -17,18 +23,45 @@ public class Main {
         frame.add(button);
         frame.setSize(30, 70);
         frame.setLayout(null);
-        frame.setVisible(true);
+        frame.setVisible(true);*/
         //
         //
-        new MyFrame();
-        WorldOfThings worldA = new WorldOfThings(0);
-        Battlefield b = new Battlefield();
-        worldA.pInsert();
-        worldA.pInsert();
-        worldA.pInsert();
-        worldA.pInsert();
+
+
+        //Graphics mainGraphics = mainFrame.getGraphics();
+/*        switch (scan.next()){
+        case "a":
+            mainGraphics.setColor(Color.BLUE);
+            mainGraphics.fillOval(100,100,100,100);
+            System.out.println("Painting blue circle...");
+            mainFrame.panel.paint(mainGraphics);
+            break;
+        case "b":
+            mainGraphics.setColor(Color.GREEN);
+            mainGraphics.fillOval(100,100,100,100);
+            System.out.println("Painting green circle...");
+            mainFrame.panel.paint(mainGraphics);
+            break;
+    }*/
+
+
+        //mainGraphics.setColor(Color.BLUE);
+        //mainGraphics.fillOval(200, 200, 100, 100);
+        //System.out.println("Painting blue circle...");
+        //mainFrame.panel.paint(mainGraphics);
+        //WorldOfThings worldA = new WorldOfThings(mainGraphics, 1);
+        //Battlefield b = new Battlefield(mainGraphics);
+        //worldA.pInsert();
+/*        worldA.pInsert();
+    worldA.pInsert();
+    worldA.pInsert();*/
+
+
+
+
+/*
         Item item1 = new Item();
-        b.drawFilledField(5,5, worldA);
+        //b.drawFilledField(5,5, worldA);
         worldA.pAddToInventory(2, 0, item1);
         worldA.pAddToInventory(2, 1, item1);
         worldA.pAddToInventory(2, 2, item1);
@@ -42,10 +75,10 @@ public class Main {
         worldA.pPrintStats();
         System.out.println("\nP4 inventory: ");
         worldA.pPrintInventory(3);
-        System.out.println(worldA.pCountInventoryItems(item1, 3));
+        System.out.println(worldA.pCountInventoryItems(item1, 3));*/
 
-    }
-}
+  //  }
+//}
 /*
 import java.util.Scanner;
 public class Main {

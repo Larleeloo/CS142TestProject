@@ -1,6 +1,12 @@
+import java.awt.*;
+
 public class Battlefield extends WorldOfThings {
-    public Battlefield(){
-        super(1);
+
+
+
+    public Battlefield(Graphics mainGraphics){
+
+        super(mainGraphics,1);
     }
 
     public void drawEmptyField(int sizeX, int sizeY){

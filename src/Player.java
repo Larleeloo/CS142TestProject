@@ -1,4 +1,4 @@
-import java.security.PublicKey;
+import java.awt.*;
 import java.util.Random;
 
 public class Player implements iPlayer{
@@ -13,8 +13,10 @@ public class Player implements iPlayer{
     int xCoords;
     int yCoords;
     int direction;
+    MyFrame playerFrame;
+    Graphics playerGraphics;
 
-    public Player(){
+    public Player(Graphics worldGraphics){
         inventorySize = 10;
         inventory[0] = new Item();
         hp = 100;
@@ -35,8 +37,14 @@ public class Player implements iPlayer{
 
         direction = 1;
 
+        this.playerGraphics = worldGraphics;
+        this.playerGraphics.setColor(Color.RED);
+        this.playerGraphics.fillOval(xCoords,yCoords,200,200);
+
+
     }
-    public Player(int inventorySize, Item[] inventory, int hp, int mp,
+    public Player(Graphics worldGraphics,
+            int inventorySize, Item[] inventory, int hp, int mp,
                   int otherStat, int strength, int charisma, int wisdom, int intelligence, int dexterity, int constitution, int stamina, int confidence, int speed,
                   int xCoords, int yCoords,
                   int direction){
@@ -55,17 +63,20 @@ public class Player implements iPlayer{
         this.stats[8] = confidence;
         this.stats[9] = speed;
 
-        this.xCoords = 0;
-        this.yCoords = 0;
+        this.xCoords = xCoords;
+        this.yCoords = yCoords;
 
-        this.direction = 1;
+        this.direction = direction;
+
+        this.playerGraphics = worldGraphics;
+        this.playerGraphics.setColor(Color.RED);
+        this.playerGraphics.fillOval(xCoords,yCoords,50,50);
 
     }
 
     public Player getNext(){
         return this.next;
     }
-
     public Player getPrev(){
         return this.prev;
     }
@@ -131,6 +142,13 @@ public class Player implements iPlayer{
     public int setStatIndex(int index, int value){
         this.stats[index] = value;
         return stats[index];
+    }
+
+    public void setPos(int x, int y){
+        this.xCoords = x;
+        this.yCoords = y;
+        this.playerGraphics.setColor(Color.RED);
+        this.playerGraphics.fillOval(xCoords,yCoords,50,50);
     }
     public int changeDir(char dir){
         switch (dir) {

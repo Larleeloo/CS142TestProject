@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class WorldOfThings implements iWorld {
    Node head;
    int size = 0;
@@ -6,15 +8,20 @@ public class WorldOfThings implements iWorld {
    int iSize = 0;
    Item[] worldInventory = new Item[63];
    Battlefield bHead = null;
+   MyFrame worldFrame;
+
+   Graphics worldGraphics;
    int bSize = 0;
    //Nodes in this case pertain only to world data and are therefore the only code initialized in each constructor
-   public WorldOfThings(){
+   public WorldOfThings(Graphics mainGraphics){
       this.head = new Node();
       this.size++;
+      this.worldGraphics = mainGraphics;
    }
-   public WorldOfThings(int worldData){
+   public WorldOfThings(Graphics mainGraphics,int worldData){
       this.head = new Node(worldData);
       this.size++;
+      this.worldGraphics = mainGraphics;
    }
 
    // Method to insert a new node
@@ -33,9 +40,9 @@ public class WorldOfThings implements iWorld {
       }
    }
    //blank player added to end of doubly list
-   public void pInsert()
+   public Player pInsert()
    {
-      Player new_player = new Player();
+      Player new_player = new Player(worldGraphics);
       if (this.pHead == null) {
          this.pHead = new_player;
       }
@@ -44,13 +51,14 @@ public class WorldOfThings implements iWorld {
          new_player.prev = this.pTraverseForward(this.pSize-1);
       }
       this.pSize++;
+      return new_player;
    }
    //inserts player with all parameters
-   public void pInsert(int inventorySize, Item[] inventory, int hp, int mp,
+   public Player pInsert(int inventorySize, Item[] inventory, int hp, int mp,
                        int otherStat, int strength, int charisma, int wisdom, int intelligence, int dexterity, int constitution, int stamina, int confidence, int speed,
                        int xCoords, int yCoords,
                        int direction){
-      Player new_player = new Player(inventorySize,inventory,hp,mp,
+      Player new_player = new Player(worldGraphics,inventorySize,inventory,hp,mp,
                                        otherStat,strength,charisma,wisdom,intelligence,dexterity,constitution,stamina,confidence,speed,
                                        xCoords,yCoords,direction);
       if (this.pHead == null) {
@@ -61,6 +69,7 @@ public class WorldOfThings implements iWorld {
          new_player.prev = this.pTraverseForward(this.pSize-1);
       }
       this.pSize++;
+      return new_player;
    }
 
    public void iInsert(){
